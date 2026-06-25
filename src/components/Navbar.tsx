@@ -14,8 +14,8 @@ export function Navbar() {
 
   return (
     <header className="site-header fixed inset-x-0 top-0 z-50 border-b border-border bg-background">
-      <div className="mx-auto flex h-16 max-w-7xl items-stretch justify-between px-3 sm:px-4 md:h-20 lg:px-6">
-        <div className="flex items-center">
+      <div className="flex h-16 w-full items-stretch justify-between md:h-20">
+        <div className="flex items-center pl-3 sm:pl-[max(1rem,calc((100vw-80rem)/2+1rem))] lg:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))]">
           <Link
             href="/"
             className="flex items-center -translate-x-2 md:-translate-x-3"
@@ -55,7 +55,7 @@ export function Navbar() {
 
         <button
           type="button"
-          className="mobile-menu-toggle flex h-full items-center md:hidden"
+          className="mobile-menu-toggle flex h-full items-center px-3 sm:px-4 md:hidden"
           aria-expanded={mobileOpen}
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
           onClick={() => setMobileOpen((open) => !open)}

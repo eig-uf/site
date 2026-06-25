@@ -121,7 +121,7 @@ export function HeroSplit() {
           <Link href="#join" className="btn btn-primary">
             Join the club
           </Link>
-          <Link href="#initiatives" className="btn btn-secondary">
+          <Link href="#initiatives" className="btn btn-secondary hidden sm:inline-flex">
             Learn more
           </Link>
         </div>
