@@ -99,25 +99,25 @@ export function HeroSplit() {
 
   return (
     <div
-      className="hero-split mt-6 grid min-h-0 items-start gap-8 lg:grid-cols-2 lg:gap-6"
+      className="hero-split mt-4 grid min-h-0 items-start gap-6 sm:mt-6 lg:grid-cols-2 lg:gap-6"
       style={rowHeight ? { height: rowHeight } : undefined}
     >
       <div
         className="min-w-0"
         style={rowHeight ? { height: rowHeight } : undefined}
       >
-        <h1 className="animate-fade-up animate-fade-up-delay-1 max-w-3xl text-4xl font-medium leading-[1.1] tracking-tight md:text-5xl">
+        <h1 className="animate-fade-up animate-fade-up-delay-1 max-w-3xl text-3xl font-medium leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
           Embodied <br />
           Intelligence Group
         </h1>
 
-        <p className="animate-fade-up animate-fade-up-delay-2 mt-8 max-w-2xl text-lg leading-relaxed text-muted md:text-xl">
+        <p className="animate-fade-up animate-fade-up-delay-2 mt-5 max-w-2xl text-base leading-relaxed text-muted sm:mt-6 md:mt-8 md:text-xl">
           EIG is a student organization at the University of Florida focused on
           how robots perceive, reason, and behave in the
           physical world.
         </p>
 
-        <div className="animate-fade-up animate-fade-up-delay-3 mt-8 flex flex-wrap gap-3">
+        <div className="animate-fade-up animate-fade-up-delay-3 mt-6 flex flex-wrap gap-2.5 sm:mt-8 sm:gap-3">
           <Link href="#join" className="btn btn-primary">
             Join the club
           </Link>

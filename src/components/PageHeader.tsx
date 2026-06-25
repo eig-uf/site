@@ -15,11 +15,11 @@ export function PageHeader({
     <section
       className={
         compact
-          ? "border-b border-border pt-24 pb-8 md:pt-28 md:pb-10"
-          : "border-b border-border pt-28 pb-12 md:pt-32 md:pb-14"
+          ? "border-b border-border pt-20 pb-6 md:pt-28 md:pb-10"
+          : "border-b border-border pt-24 pb-10 md:pt-32 md:pb-14"
       }
     >
-      <div className="mx-auto max-w-7xl px-4 lg:px-6">
+      <div className="mx-auto max-w-7xl px-3 sm:px-4 lg:px-6">
         <p className="section-label animate-fade-up">{label}</p>
         <h1
           className={`animate-fade-up animate-fade-up-delay-1 max-w-4xl font-medium leading-[1.1] tracking-tight ${

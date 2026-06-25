@@ -14,15 +14,19 @@ export function Navbar() {
 
   return (
     <header className="site-header fixed inset-x-0 top-0 z-50 border-b border-border bg-background">
-      <div className="flex h-20 w-full items-stretch justify-between">
-        <div className="flex items-center px-4 lg:px-6">
-          <Link href="/" className="flex items-center" aria-label="Home">
+      <div className="mx-auto flex h-16 max-w-7xl items-stretch justify-between px-3 sm:px-4 md:h-20 lg:px-6">
+        <div className="flex items-center">
+          <Link
+            href="/"
+            className="flex items-center -translate-x-2 md:-translate-x-3"
+            aria-label="Home"
+          >
             <Image
               src="/main_logo.svg"
               alt="Embodied Intelligence Group"
               width={80}
               height={80}
-              className="h-20 w-20"
+              className="h-14 w-14 md:h-20 md:w-20"
               priority
             />
           </Link>
@@ -51,7 +55,7 @@ export function Navbar() {
 
         <button
           type="button"
-          className="mobile-menu-toggle flex h-full items-center px-4 md:hidden lg:px-6"
+          className="mobile-menu-toggle flex h-full items-center md:hidden"
           aria-expanded={mobileOpen}
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
           onClick={() => setMobileOpen((open) => !open)}
@@ -72,7 +76,10 @@ export function Navbar() {
 
       {mobileOpen && (
         <div className="border-t border-border bg-background md:hidden">
-          <nav aria-label="Mobile" className="px-4 py-2 lg:px-6">
+          <nav
+            aria-label="Mobile"
+            className="mx-auto max-w-7xl px-3 py-2 sm:px-4 lg:px-6"
+          >
             <ul className="divide-y divide-border">
               {navLinks.map((link) => (
                 <li key={link.href}>

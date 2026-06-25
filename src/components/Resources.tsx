@@ -58,8 +58,8 @@ function ResourceSection({
 
 export function Resources() {
   return (
-    <div className="mx-auto max-w-7xl px-4 pb-24 pt-12 md:pb-32 md:pt-16 lg:px-6">
-      <div className="space-y-16 md:space-y-24">
+    <div className="mx-auto max-w-7xl px-3 pb-16 pt-10 sm:px-4 md:pb-32 md:pt-16 lg:px-6">
+      <div className="space-y-12 md:space-y-24">
         <div className="animate-fade-up animate-fade-up-delay-3">
           <ResourceSection
             label="From the club"

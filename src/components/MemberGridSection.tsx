@@ -26,13 +26,13 @@ export function MemberGridSection({
     <section
       className={`${
         aside
-          ? "pt-10 md:pt-12"
+          ? "pt-8 md:pt-12"
           : compact
-            ? "py-10 md:py-12"
+            ? "py-8 md:py-12"
             : "py-16 md:py-20"
       } ${delayClass}`.trim()}
     >
-      <div className="mx-auto max-w-7xl px-4 lg:px-6">
+      <div className="mx-auto max-w-7xl px-3 sm:px-4 lg:px-6">
         <div className="max-w-2xl">
           {label ? <p className="section-label">{label}</p> : null}
           <h2

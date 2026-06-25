@@ -41,10 +41,10 @@ function InitiativeBlock({
 
   return (
     <section
-      className={`pb-12 md:pb-16${index === 0 ? " pt-6 md:pt-8" : " border-t border-border py-12 md:py-16"}`}
+      className={`pb-8 md:pb-16${index === 0 ? " pt-4 md:pt-8" : " border-t border-border py-8 md:py-16"}`}
     >
       <div
-        className={`mx-auto max-w-7xl px-4 lg:px-6 ${delayClass} animate-fade-up`}
+        className={`mx-auto max-w-7xl px-3 sm:px-4 lg:px-6 ${delayClass} animate-fade-up`}
       >
         <div className="grid gap-y-8 md:min-h-[24rem] md:grid-cols-2 md:items-center md:gap-x-4 lg:gap-x-6">
           {reversed ? (
@@ -87,10 +87,10 @@ function InitiativeBlock({
 export function Initiatives() {
   return (
     <div id="initiatives">
-      <section className="border-t border-border pt-12 md:pt-16">
-        <div className="mx-auto max-w-7xl px-4 lg:px-6">
+      <section className="border-t border-border pt-10 md:pt-16">
+        <div className="mx-auto max-w-7xl px-3 sm:px-4 lg:px-6">
           <p className="section-label animate-fade-up">Initiatives</p>
-          <h2 className="animate-fade-up animate-fade-up-delay-1 mt-4 max-w-3xl text-3xl font-medium tracking-tight md:text-5xl">
+          <h2 className="animate-fade-up animate-fade-up-delay-1 mt-3 max-w-3xl text-2xl font-medium tracking-tight sm:mt-4 sm:text-3xl md:text-5xl">
             What we do as a club.
           </h2>
         </div>
