@@ -1,18 +1,12 @@
-import type { Metadata } from "next";
-import { Resources } from "@/components/Resources";
-import { ResourcesPageHeader } from "@/components/ResourcesPageHeader";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Resources | Embodied Intelligence Group",
-  description:
-    "EIG workshops on GitHub, plus papers, courses, and tools for learning embodied AI and robotics.",
-};
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-export default function ResourcesPage() {
-  return (
-    <main>
-      <ResourcesPageHeader />
-      <Resources />
-    </main>
-  );
+export default function ResourcesRedirect() {
+  const router = useRouter();
+  useEffect(() => {
+    router.replace("/projects");
+  }, [router]);
+  return null;
 }

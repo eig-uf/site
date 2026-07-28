@@ -1,10 +1,10 @@
 "use client";
 
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
-import { membersAsciiArt } from "@/content/members-ascii-art";
+import { heroAsciiArt } from "@/content/hero-ascii-art";
 
-const MEMBERS_ASCII_HEIGHT_SCALE = 1.4;
-const MEMBERS_ASCII_WIDTH_OVERFLOW = 1.2;
+const ASCII_HEIGHT_SCALE = 1.35;
+const ASCII_WIDTH_OVERFLOW = 1.2;
 
 function fitAsciiToWidth(pre: HTMLPreElement, maxWidth: number) {
   let fontSize = 8;
@@ -12,13 +12,13 @@ function fitAsciiToWidth(pre: HTMLPreElement, maxWidth: number) {
   pre.style.fontSize = `${fontSize}px`;
   pre.style.lineHeight = "1";
 
-  const widthBudget = maxWidth * MEMBERS_ASCII_WIDTH_OVERFLOW;
+  const widthBudget = maxWidth * ASCII_WIDTH_OVERFLOW;
   while (pre.scrollWidth > widthBudget && fontSize > 2) {
     fontSize -= 0.25;
     pre.style.fontSize = `${fontSize}px`;
   }
 
-  fontSize *= MEMBERS_ASCII_HEIGHT_SCALE;
+  fontSize *= ASCII_HEIGHT_SCALE;
   pre.style.fontSize = `${fontSize}px`;
 
   if (pre.scrollWidth > widthBudget && widthBudget > 0) {
@@ -27,15 +27,16 @@ function fitAsciiToWidth(pre: HTMLPreElement, maxWidth: number) {
   }
 }
 
-export function MembersAsciiArt() {
+/** Live-site robot ASCII from main, fitted into the Invo hero. */
+export function HeroAsciiArt() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const preRef = useRef<HTMLPreElement>(null);
   const [ready, setReady] = useState(false);
 
   const updateSize = useCallback(() => {
-    const wrapper = wrapperRef.current;
     const pre = preRef.current;
-    if (!wrapper || !pre) return;
+    const wrapper = wrapperRef.current;
+    if (!pre || !wrapper) return;
 
     const maxWidth = wrapper.clientWidth;
     if (maxWidth === 0) return;
@@ -50,23 +51,26 @@ export function MembersAsciiArt() {
     const wrapper = wrapperRef.current;
     if (!wrapper) return;
 
-    const observer = new ResizeObserver(updateSize);
+    const observer = new ResizeObserver(() => {
+      updateSize();
+    });
     observer.observe(wrapper);
+    window.addEventListener("resize", updateSize);
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", updateSize);
+    };
   }, [updateSize]);
 
   return (
     <div
       ref={wrapperRef}
-      className={`ascii-art-wrapper ascii-art-wrapper--members${ready ? " is-ready" : ""}`}
+      className={`hero-ascii-wrap${ready ? " is-ready" : ""}`}
+      aria-hidden="true"
     >
-      <pre
-        ref={preRef}
-        className="ascii-art ascii-art--members"
-        aria-hidden="true"
-      >
-        {membersAsciiArt}
+      <pre ref={preRef} className="hero-ascii">
+        {heroAsciiArt}
       </pre>
     </div>
   );
