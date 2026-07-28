@@ -40,7 +40,7 @@ export default async function Image() {
             alt=""
             width={320}
             height={88}
-            style={{ objectFit: "contain" }}
+            style={{ objectFit: "contain", marginLeft: -20 }}
           />
           <div
             style={{
@@ -61,7 +61,7 @@ export default async function Image() {
               fontWeight: 500,
               lineHeight: 1.05,
               letterSpacing: "-0.03em",
-              color: "#e7e6d9",
+              color: "#ffffff",
               maxWidth: 900,
             }}
           >
