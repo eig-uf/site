@@ -100,6 +100,10 @@ export function SiteHeader() {
   }, [menuOpen]);
 
   useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
@@ -116,7 +120,9 @@ export function SiteHeader() {
         aria-hidden="true"
         onClick={closeMenu}
         className={`fixed inset-0 z-40 bg-black/50 transition-opacity duration-300 ${
-          menuOpen ? "visible opacity-100" : "invisible opacity-0"
+          menuOpen
+            ? "visible opacity-100"
+            : "pointer-events-none invisible opacity-0"
         }`}
       />
 
