@@ -1,67 +1,245 @@
+"use client";
+
+import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import {
+  motion,
+  useReducedMotion,
+  type Transition,
+  type Variants,
+} from "motion/react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { socialLinks } from "@/lib/site";
 
-export function SiteHeader() {
-  return (
-    <header className="relative bg-background">
-      <div className="mx-auto flex max-w-7xl items-stretch border-x border-border">
-        <Link
-          href="/"
-          className="flex min-w-0 items-center gap-3 px-3 py-4 sm:px-4"
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/logo-white.png"
-            alt=""
-            width={40}
-            height={40}
-            className="h-10 w-10 shrink-0"
-          />
-          <span className="font-brand text-[clamp(1.5rem,2.6vw,2.5rem)] leading-none tracking-tight text-foreground">
-            EIG
-          </span>
-        </Link>
+const navLinks = [
+  { href: "/members", label: "Members" },
+  { href: "/join", label: "Join" },
+] as const;
 
-        <nav className="ml-auto flex min-w-0 items-stretch divide-x divide-border border-l border-border">
-          <Link
-            href="/projects"
-            className="flex items-center px-2.5 font-mono text-xs font-semibold leading-none text-foreground transition-colors hover:bg-cream/10 sm:px-5 sm:text-sm"
+const menuLinks = [{ href: "/", label: "Home" }, ...navLinks] as const;
+const headerBarHeight = 72;
+
+const shellSpring: Transition = {
+  type: "spring",
+  stiffness: 300,
+  damping: 25,
+  mass: 0.9,
+};
+
+const menuLineVariants: Variants = {
+  open: (line: "top" | "bottom") => ({
+    rotate: line === "top" ? "45deg" : "-45deg",
+    top: line === "top" ? "50%" : undefined,
+    bottom: line === "bottom" ? "50%" : undefined,
+  }),
+  closed: (line: "top" | "bottom") => ({
+    rotate: "0deg",
+    top: line === "top" ? "42%" : undefined,
+    bottom: line === "bottom" ? "42%" : undefined,
+  }),
+};
+
+function MenuButton({
+  isOpen,
+  onToggle,
+}: {
+  isOpen: boolean;
+  onToggle: () => void;
+}) {
+  return (
+    <motion.button
+      type="button"
+      onClick={onToggle}
+      animate={isOpen ? "open" : "closed"}
+      aria-label={isOpen ? "Close menu" : "Open menu"}
+      aria-expanded={isOpen}
+      aria-controls="site-menu"
+      className="group relative h-[72px] w-[72px] cursor-pointer p-5"
+    >
+      <div className="absolute inset-0 m-2.5 flex items-center justify-center !rounded-lg transition-colors duration-200 group-hover:bg-nav-button-hover" />
+      <motion.span
+        custom="top"
+        variants={menuLineVariants}
+        style={{ left: "50%", top: "42%", x: "-50%", y: "-50%" }}
+        className="absolute h-[2.5px] w-6 !rounded-full bg-nav-primary"
+      />
+      <motion.span
+        custom="bottom"
+        variants={menuLineVariants}
+        style={{ left: "50%", bottom: "42%", x: "-50%", y: "50%" }}
+        className="absolute h-[2.5px] w-6 !rounded-full bg-nav-primary"
+      />
+    </motion.button>
+  );
+}
+
+export function SiteHeader() {
+  const pathname = usePathname();
+  const prefersReducedMotion = useReducedMotion();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [contentHeight, setContentHeight] = useState(0);
+  const menuContentRef = useRef<HTMLDivElement>(null);
+
+  const closeMenu = () => setMenuOpen(false);
+  const shellHeight = menuOpen ? headerBarHeight + contentHeight : headerBarHeight;
+
+  useLayoutEffect(() => {
+    if (!menuOpen || !menuContentRef.current) {
+      return;
+    }
+
+    const node = menuContentRef.current;
+    const measure = () => setContentHeight(node.scrollHeight);
+
+    measure();
+
+    const observer = new ResizeObserver(measure);
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [menuOpen]);
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
+  const shellTransition = prefersReducedMotion
+    ? { duration: 0.01 }
+    : shellSpring;
+
+  return (
+    <>
+      <div
+        aria-hidden="true"
+        onClick={closeMenu}
+        className={`fixed inset-0 z-40 bg-black/50 transition-opacity duration-300 ${
+          menuOpen ? "visible opacity-100" : "invisible opacity-0"
+        }`}
+      />
+
+      <motion.header
+        initial={false}
+        className="pointer-events-none fixed top-0 right-0 left-0 z-50 mx-auto p-4 md:p-6"
+      >
+        <motion.div
+          data-nav-open={menuOpen ? "" : undefined}
+          className="pointer-events-auto relative mx-auto overflow-hidden !rounded-xl border border-nav-border bg-nav-bg text-nav-primary shadow-none backdrop-blur-2xl transition-colors duration-200 [--menu-width-closed:100%] [--menu-width-open:100%] sm:[--menu-width-closed:380px] sm:[--menu-width-open:min(50vw,38rem)]"
+          initial={false}
+          animate={{
+            width: menuOpen
+              ? "var(--menu-width-open)"
+              : "var(--menu-width-closed)",
+            height: shellHeight,
+          }}
+          transition={shellTransition}
+        >
+          <div className="flex h-[72px] w-full items-center justify-between">
+            <Link
+              href="/"
+              aria-label="Embodied Intelligence Group home"
+              onClick={closeMenu}
+            >
+              <div className="flex h-[72px] w-[72px] items-center justify-center">
+                <Image
+                  src="/logo-black.png"
+                  alt=""
+                  width={48}
+                  height={48}
+                  className="size-11"
+                />
+              </div>
+            </Link>
+
+            <Link
+              href="/"
+              aria-label="Embodied Intelligence Group home"
+              onClick={closeMenu}
+              className="flex h-[72px] items-center px-5"
+            >
+              <span className="text-4xl font-bold tracking-[0.1em]">
+                EIG
+              </span>
+            </Link>
+
+            <MenuButton
+              isOpen={menuOpen}
+              onToggle={() => setMenuOpen((open) => !open)}
+            />
+          </div>
+
+          <motion.div
+            ref={menuContentRef}
+            id="site-menu"
+            aria-hidden={!menuOpen}
+            animate={{ opacity: menuOpen ? 1 : 0 }}
+            transition={{ duration: prefersReducedMotion ? 0.01 : 0.2 }}
+            className="flex w-full flex-col justify-between gap-8 p-6"
           >
-            Projects
-          </Link>
-          <Link
-            href="/members"
-            className="flex items-center px-2.5 font-mono text-xs font-semibold leading-none text-foreground transition-colors hover:bg-cream/10 sm:px-5 sm:text-sm"
-          >
-            Members
-          </Link>
-          <a
-            href={socialLinks.discord}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center bg-cream px-2.5 font-mono text-xs font-semibold leading-none text-cream-fg transition-colors hover:bg-shell sm:px-5 sm:text-sm"
-          >
-            <span className="sm:hidden">Discord</span>
-            <span className="hidden sm:inline">Join Discord</span>
-          </a>
-        </nav>
-      </div>
-      <div className="absolute bottom-0 left-0 h-px w-full overflow-hidden bg-border">
-        <div className="absolute top-0 left-0 h-full w-full">
-          <div className="animate-sweep absolute top-0 h-full w-[200px] bg-gradient-to-r from-transparent via-cream/70 to-transparent" />
-        </div>
-      </div>
-    </header>
+            <nav className="flex flex-col items-start gap-2 pb-8 text-nav-primary lg:pb-0">
+              {menuLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  aria-current={pathname === link.href ? "page" : undefined}
+                  onClick={closeMenu}
+                  tabIndex={menuOpen ? 0 : -1}
+                  className="text-3xl font-semibold transition-colors duration-200 hover:text-nav-secondary"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+
+            <div className="border-t border-nav-border pt-5">
+              <p className="font-mono text-sm text-nav-secondary">
+                University of Florida
+              </p>
+            </div>
+          </motion.div>
+        </motion.div>
+      </motion.header>
+    </>
   );
 }
 
 export function SiteFooter() {
   return (
     <footer className="border-t border-border bg-background">
-      <div className="mx-auto max-w-7xl border-x border-border px-4 py-8 sm:px-6">
-        <p className="font-mono text-xs text-muted-fg sm:text-sm">
-          EIG University of Florida
-        </p>
+      <div className="site-media-breakout py-10">
+        <div className="site-media-width flex flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-3">
+            <Image
+              src="/logo-black.png"
+              alt=""
+              width={24}
+              height={24}
+              className="size-6"
+            />
+            <p className="text-xs leading-relaxed text-muted">
+              Embodied Intelligence Group
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-x-5 gap-y-3 text-xs text-muted">
+            {[
+              ["Discord", socialLinks.discord],
+              ["Instagram", socialLinks.instagram],
+              ["LinkedIn", socialLinks.linkedin],
+            ].map(([label, href]) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors hover:text-foreground"
+              >
+                {label}
+              </a>
+            ))}
+          </div>
+        </div>
       </div>
     </footer>
   );

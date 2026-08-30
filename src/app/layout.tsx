@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Arimo, Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import { siteDescription, siteName, siteUrl } from "@/lib/site";
 import "./globals.css";
@@ -14,17 +14,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-/** Helvetica / Arial–metric neo-grotesque for brand wordmark */
-const brandSans = Arimo({
-  variable: "--font-brand",
-  subsets: ["latin"],
-  weight: ["700"],
-});
-
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0b0b0b",
+  themeColor: "#ffffff",
 };
 
 export const metadata: Metadata = {
@@ -34,6 +27,13 @@ export const metadata: Metadata = {
     template: `%s | ${siteName}`,
   },
   description: siteDescription,
+  keywords: [
+    "embodied intelligence",
+    "robotics",
+    "physical AI",
+    "University of Florida",
+    "student organization",
+  ],
   icons: {
     icon: "/secondary_logo.png",
     apple: "/secondary_logo.png",
@@ -72,11 +72,19 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${brandSans.variable} antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
       <body>
+        <a
+          href="#content"
+          className="fixed left-4 top-4 z-[100] -translate-y-24 bg-foreground px-4 py-3 font-mono text-xs uppercase tracking-wider text-background transition-transform focus:translate-y-0"
+        >
+          Skip to content
+        </a>
         <SiteHeader />
-        {children}
+        <main id="content" className="pt-[var(--header-height)]">
+          {children}
+        </main>
         <SiteFooter />
       </body>
     </html>

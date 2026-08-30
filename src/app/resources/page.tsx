@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 export default function ResourcesRedirect() {
   const router = useRouter();
   useEffect(() => {
-    router.replace("/projects");
+    router.replace("/");
   }, [router]);
   return null;
 }

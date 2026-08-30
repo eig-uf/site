@@ -3,7 +3,6 @@ export type Member = {
   role: string;
   year: string;
   major: string;
-  bio: string;
   linkedin: string;
   website?: string;
   image?: string;
@@ -15,7 +14,6 @@ export const members: Member[] = [
     role: "President",
     year: "2028",
     major: "CS",
-    bio: "Short bio placeholder.",
     linkedin: "https://www.linkedin.com/in/loganthomley/",
   },
   {
@@ -23,23 +21,13 @@ export const members: Member[] = [
     role: "Internal VP",
     year: "2028",
     major: "CPE",
-    bio: "Short bio placeholder.",
     linkedin: "https://www.linkedin.com/in/marcelo-palmer/",
-  },
-  {
-    name: "Minh Tran",
-    role: "External VP",
-    year: "2028",
-    major: "CS",
-    bio: "Short bio placeholder.",
-    linkedin: "https://www.linkedin.com/in/minhtran605/",
   },
   {
     name: "Mirah Blanchard",
     role: "Treasurer",
     year: "2028",
     major: "ME",
-    bio: "Short bio placeholder.",
     linkedin: "https://www.linkedin.com/in/mirah-blanchard/",
   },
   {
@@ -47,7 +35,13 @@ export const members: Member[] = [
     role: "Workshop Director",
     year: "2028",
     major: "EE",
-    bio: "Short bio placeholder.",
     linkedin: "https://www.linkedin.com/in/davis-lester/",
+  },
+  {
+    name: "Minh Tran",
+    role: "External VP",
+    year: "2028",
+    major: "CS",
+    linkedin: "https://www.linkedin.com/in/minhtran605/",
   },
 ];

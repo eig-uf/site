@@ -1,4 +1,5 @@
-// @ts-nocheck
+/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-unused-vars, react-hooks/refs */
+// @ts-nocheck -- legacy canvas particle simulation is intentionally runtime-driven
 "use client";
 
 import { useEffect, useRef } from "react";

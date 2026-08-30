@@ -1,24 +1,32 @@
 "use client";
 
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
-import { heroAsciiArt } from "@/content/hero-ascii-art";
 
-const ASCII_HEIGHT_SCALE = 1.35;
-const ASCII_WIDTH_OVERFLOW = 1.2;
+type AsciiArtPanelProps = {
+  art: string;
+  heightScale?: number;
+  widthOverflow?: number;
+  className?: string;
+};
 
-function fitAsciiToWidth(pre: HTMLPreElement, maxWidth: number) {
+function fitAsciiToWidth(
+  pre: HTMLPreElement,
+  maxWidth: number,
+  heightScale: number,
+  widthOverflow: number,
+) {
   let fontSize = 8;
 
   pre.style.fontSize = `${fontSize}px`;
   pre.style.lineHeight = "1";
 
-  const widthBudget = maxWidth * ASCII_WIDTH_OVERFLOW;
+  const widthBudget = maxWidth * widthOverflow;
   while (pre.scrollWidth > widthBudget && fontSize > 2) {
     fontSize -= 0.25;
     pre.style.fontSize = `${fontSize}px`;
   }
 
-  fontSize *= ASCII_HEIGHT_SCALE;
+  fontSize *= heightScale;
   pre.style.fontSize = `${fontSize}px`;
 
   if (pre.scrollWidth > widthBudget && widthBudget > 0) {
@@ -27,8 +35,12 @@ function fitAsciiToWidth(pre: HTMLPreElement, maxWidth: number) {
   }
 }
 
-/** Live-site robot ASCII from main, fitted into the Invo hero. */
-export function HeroAsciiArt() {
+export function AsciiArtPanel({
+  art,
+  heightScale = 1.3,
+  widthOverflow = 1.12,
+  className = "",
+}: AsciiArtPanelProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const preRef = useRef<HTMLPreElement>(null);
   const [ready, setReady] = useState(false);
@@ -41,9 +53,9 @@ export function HeroAsciiArt() {
     const maxWidth = wrapper.clientWidth;
     if (maxWidth === 0) return;
 
-    fitAsciiToWidth(pre, maxWidth);
+    fitAsciiToWidth(pre, maxWidth, heightScale, widthOverflow);
     setReady(true);
-  }, []);
+  }, [heightScale, widthOverflow]);
 
   useLayoutEffect(() => {
     updateSize();
@@ -51,9 +63,7 @@ export function HeroAsciiArt() {
     const wrapper = wrapperRef.current;
     if (!wrapper) return;
 
-    const observer = new ResizeObserver(() => {
-      updateSize();
-    });
+    const observer = new ResizeObserver(updateSize);
     observer.observe(wrapper);
     window.addEventListener("resize", updateSize);
 
@@ -64,14 +74,15 @@ export function HeroAsciiArt() {
   }, [updateSize]);
 
   return (
-    <div
-      ref={wrapperRef}
-      className={`hero-ascii-wrap${ready ? " is-ready" : ""}`}
-      aria-hidden="true"
-    >
-      <pre ref={preRef} className="hero-ascii">
-        {heroAsciiArt}
-      </pre>
+    <div className={`ascii-panel ${className}`.trim()} aria-hidden="true">
+      <div
+        ref={wrapperRef}
+        className={`ascii-panel-canvas${ready ? " is-ready" : ""}`}
+      >
+        <pre ref={preRef} className="ascii-panel-art">
+          {art}
+        </pre>
+      </div>
     </div>
   );
 }
