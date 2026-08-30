@@ -4,7 +4,7 @@ export const siteUrl =
 export const siteName = "Embodied Intelligence Group";
 
 export const siteDescription =
-  "EIG is a student organization at the University of Florida focused on how robots perceive, reason, and behave in the physical world.";
+  "A UF student group exploring how intelligent machines learn.";
 
 /** Update these to the club’s real profiles. */
 export const socialLinks = {

@@ -5,12 +5,24 @@ import { siteName } from "@/lib/site";
 
 export const dynamic = "force-static";
 
-export const alt = `UF | ${siteName}`;
+export const alt = siteName;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
+async function loadGeistMedium() {
+  return fetch(
+    "https://cdn.jsdelivr.net/fontsource/fonts/geist-sans@5.3.0/latin-500-normal.woff",
+  ).then((response) => response.arrayBuffer());
+}
+
 export default async function Image() {
-  const logo = await readFile(join(process.cwd(), "public/logo-black.png"));
+  const [hero, logo, geistMedium] = await Promise.all([
+    readFile(join(process.cwd(), "public/images/og-dither-robot.png")),
+    readFile(join(process.cwd(), "public/logo-black.png")),
+    loadGeistMedium(),
+  ]);
+
+  const heroSrc = `data:image/jpeg;base64,${hero.toString("base64")}`;
   const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
 
   return new ImageResponse(
@@ -18,71 +30,77 @@ export default async function Image() {
       <div
         style={{
           display: "flex",
-          flexDirection: "row",
+          position: "relative",
           width: "100%",
           height: "100%",
-          backgroundColor: "#ffffff",
-          color: "#050505",
-          padding: 52,
         }}
       >
-        <div
+        {/* img required for next/og ImageResponse */}
+        <img
+          src={heroSrc}
+          alt=""
+          width={1200}
+          height={630}
           style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            width: "68%",
-            paddingRight: 48,
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "center",
           }}
-        >
-          <div
-            style={{
-              display: "flex",
-              fontSize: 20,
-              textTransform: "uppercase",
-              letterSpacing: "0.08em",
-            }}
-          >
-            UF.01 / Physical AI collective
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              fontSize: 86,
-              fontWeight: 600,
-              lineHeight: 0.9,
-              letterSpacing: "-0.06em",
-            }}
-          >
-            <span>Embodied</span>
-            <span>Intelligence</span>
-            <span>Group</span>
-          </div>
-          <div style={{ display: "flex", fontSize: 22 }}>
-            Embodied Intelligence Group · University of Florida
-          </div>
-        </div>
+        />
         <div
           style={{
             display: "flex",
-            width: "32%",
-            border: "1px solid #e6e6e6",
-            alignItems: "center",
+            position: "absolute",
+            top: 72,
+            left: 0,
+            right: 0,
             justifyContent: "center",
           }}
         >
-          {/* img required for next/og ImageResponse */}
-          <img
-            src={logoSrc}
-            alt=""
-            width={210}
-            height={210}
-            style={{ objectFit: "contain" }}
-          />
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 28,
+            }}
+          >
+            <img
+              src={logoSrc}
+              alt=""
+              width={88}
+              height={88}
+              style={{ objectFit: "contain" }}
+            />
+            <div
+              style={{
+                display: "flex",
+                fontFamily: "Geist",
+                fontSize: 64,
+                fontWeight: 500,
+                lineHeight: 1,
+                letterSpacing: "-0.065em",
+                color: "#050505",
+              }}
+            >
+              {siteName}
+            </div>
+          </div>
         </div>
       </div>
     ),
-    { ...size },
+    {
+      ...size,
+      fonts: [
+        {
+          name: "Geist",
+          data: geistMedium,
+          style: "normal",
+          weight: 500,
+        },
+      ],
+    },
   );
 }

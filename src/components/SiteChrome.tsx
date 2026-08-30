@@ -27,16 +27,19 @@ const shellSpring: Transition = {
   mass: 0.9,
 };
 
+const menuLineTransition: Transition = {
+  duration: 0.2,
+  ease: [0.4, 0, 0.2, 1],
+};
+
 const menuLineVariants: Variants = {
   open: (line: "top" | "bottom") => ({
-    rotate: line === "top" ? "45deg" : "-45deg",
-    top: line === "top" ? "50%" : undefined,
-    bottom: line === "bottom" ? "50%" : undefined,
+    y: "-50%",
+    rotate: line === "top" ? 45 : -45,
   }),
   closed: (line: "top" | "bottom") => ({
-    rotate: "0deg",
-    top: line === "top" ? "42%" : undefined,
-    bottom: line === "bottom" ? "42%" : undefined,
+    y: line === "top" ? "calc(-50% - 6px)" : "calc(-50% + 6px)",
+    rotate: 0,
   }),
 };
 
@@ -47,10 +50,14 @@ function MenuButton({
   isOpen: boolean;
   onToggle: () => void;
 }) {
+  const lineClassName =
+    "absolute left-1/2 top-1/2 block h-[2px] w-6 rounded-full bg-nav-primary";
+
   return (
     <motion.button
       type="button"
       onClick={onToggle}
+      initial={false}
       animate={isOpen ? "open" : "closed"}
       aria-label={isOpen ? "Close menu" : "Open menu"}
       aria-expanded={isOpen}
@@ -58,18 +65,22 @@ function MenuButton({
       className="group relative h-[72px] w-[72px] cursor-pointer p-5"
     >
       <div className="absolute inset-0 m-2.5 flex items-center justify-center !rounded-lg transition-colors duration-200 group-hover:bg-nav-button-hover" />
-      <motion.span
-        custom="top"
-        variants={menuLineVariants}
-        style={{ left: "50%", top: "42%", x: "-50%", y: "-50%" }}
-        className="absolute h-[2.5px] w-6 !rounded-full bg-nav-primary"
-      />
-      <motion.span
-        custom="bottom"
-        variants={menuLineVariants}
-        style={{ left: "50%", bottom: "42%", x: "-50%", y: "50%" }}
-        className="absolute h-[2.5px] w-6 !rounded-full bg-nav-primary"
-      />
+      <span className="pointer-events-none relative block h-6 w-6">
+        <motion.span
+          custom="top"
+          variants={menuLineVariants}
+          transition={menuLineTransition}
+          style={{ x: "-50%", transformOrigin: "center center" }}
+          className={lineClassName}
+        />
+        <motion.span
+          custom="bottom"
+          variants={menuLineVariants}
+          transition={menuLineTransition}
+          style={{ x: "-50%", transformOrigin: "center center" }}
+          className={lineClassName}
+        />
+      </span>
     </motion.button>
   );
 }
