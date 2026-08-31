@@ -62,7 +62,7 @@ function MenuButton({
       aria-label={isOpen ? "Close menu" : "Open menu"}
       aria-expanded={isOpen}
       aria-controls="site-menu"
-      className="group relative h-[72px] w-[72px] cursor-pointer p-5"
+      className="group relative flex h-[72px] w-[72px] cursor-pointer items-center justify-center p-5"
     >
       <div className="absolute inset-0 m-2.5 flex items-center justify-center !rounded-lg transition-colors duration-200 group-hover:bg-nav-button-hover" />
       <span className="pointer-events-none relative block h-6 w-6">
