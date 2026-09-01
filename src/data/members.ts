@@ -15,6 +15,7 @@ export const members: Member[] = [
     year: "2028",
     major: "CS",
     linkedin: "https://www.linkedin.com/in/loganthomley/",
+    image: "/headshots/LoganThomley.webp",
   },
   {
     name: "Marcelo Palmer",
@@ -22,6 +23,7 @@ export const members: Member[] = [
     year: "2028",
     major: "CPE",
     linkedin: "https://www.linkedin.com/in/marcelo-palmer/",
+    image: "/headshots/MarceloPalmer.webp",
   },
   {
     name: "Mirah Blanchard",
@@ -29,6 +31,7 @@ export const members: Member[] = [
     year: "2028",
     major: "ME",
     linkedin: "https://www.linkedin.com/in/mirah-blanchard/",
+    image: "/headshots/MirahBlanchard-cropped.webp",
   },
   {
     name: "Davis Lester",
@@ -36,6 +39,7 @@ export const members: Member[] = [
     year: "2028",
     major: "EE",
     linkedin: "https://www.linkedin.com/in/davis-lester/",
+    image: "/headshots/DavisLester.webp",
   },
   {
     name: "Minh Tran",
@@ -43,5 +47,6 @@ export const members: Member[] = [
     year: "2028",
     major: "CS",
     linkedin: "https://www.linkedin.com/in/minhtran605/",
+    image: "/headshots/MinhTran.webp",
   },
 ];

@@ -8,12 +8,7 @@ export const metadata: Metadata = {
     "Meet the Embodied Intelligence Group e-board at the University of Florida.",
 };
 
-function initials(name: string) {
-  return name
-    .split(" ")
-    .map((part) => part[0])
-    .join("");
-}
+const showHeadshots = false;
 
 export default function MembersPage() {
   return (
@@ -30,12 +25,8 @@ export default function MembersPage() {
                 key={member.name}
                 className="flex w-full flex-col overflow-hidden !rounded-xl p-4 sm:p-5"
               >
-                <div
-                  className={`relative aspect-[4/5] overflow-hidden !rounded-lg ${
-                    member.image ? "bg-border" : "bg-background"
-                  }`}
-                >
-                  {member.image ? (
+                {showHeadshots && member.image ? (
+                  <div className="relative aspect-[4/5] overflow-hidden !rounded-lg bg-border">
                     <Image
                       src={member.image}
                       alt={member.name}
@@ -43,14 +34,12 @@ export default function MembersPage() {
                       sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
                       className="object-cover"
                     />
-                  ) : (
-                    <div className="flex h-full items-center justify-center text-3xl text-muted">
-                      {initials(member.name)}
-                    </div>
-                  )}
-                </div>
+                  </div>
+                ) : null}
 
-                <div className="mt-4 flex flex-1 flex-col gap-3 sm:mt-5">
+                <div
+                  className={`flex flex-1 flex-col gap-3 ${showHeadshots ? "mt-4 sm:mt-5" : ""}`}
+                >
                   <div>
                     <h2 className="text-lg font-medium tracking-[-0.02em] sm:text-xl">
                       {member.name}

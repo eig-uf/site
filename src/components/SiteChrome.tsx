@@ -7,7 +7,6 @@ import {
   motion,
   useReducedMotion,
   type Transition,
-  type Variants,
 } from "motion/react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { socialLinks } from "@/lib/site";
@@ -27,22 +26,6 @@ const shellSpring: Transition = {
   mass: 0.9,
 };
 
-const menuLineTransition: Transition = {
-  duration: 0.2,
-  ease: [0.4, 0, 0.2, 1],
-};
-
-const menuLineVariants: Variants = {
-  open: (line: "top" | "bottom") => ({
-    y: "-50%",
-    rotate: line === "top" ? 45 : -45,
-  }),
-  closed: (line: "top" | "bottom") => ({
-    y: line === "top" ? "calc(-50% - 6px)" : "calc(-50% + 6px)",
-    rotate: 0,
-  }),
-};
-
 function MenuButton({
   isOpen,
   onToggle,
@@ -51,14 +34,12 @@ function MenuButton({
   onToggle: () => void;
 }) {
   const lineClassName =
-    "absolute left-1/2 top-1/2 block h-[2px] w-6 rounded-full bg-nav-primary";
+    "absolute left-1/2 top-1/2 block h-[2px] w-6 rounded-full bg-nav-primary transition-transform duration-200 ease-out";
 
   return (
-    <motion.button
+    <button
       type="button"
       onClick={onToggle}
-      initial={false}
-      animate={isOpen ? "open" : "closed"}
       aria-label={isOpen ? "Close menu" : "Open menu"}
       aria-expanded={isOpen}
       aria-controls="site-menu"
@@ -66,31 +47,34 @@ function MenuButton({
     >
       <div className="absolute inset-0 m-2.5 flex items-center justify-center !rounded-lg transition-colors duration-200 group-hover:bg-nav-button-hover" />
       <span className="pointer-events-none relative block h-6 w-6">
-        <motion.span
-          custom="top"
-          variants={menuLineVariants}
-          transition={menuLineTransition}
-          style={{ x: "-50%", transformOrigin: "center center" }}
-          className={lineClassName}
+        <span
+          className={`${lineClassName} -translate-x-1/2 ${
+            isOpen
+              ? "-translate-y-1/2 rotate-45"
+              : "-translate-y-[calc(50%+6px)] rotate-0"
+          }`}
         />
-        <motion.span
-          custom="bottom"
-          variants={menuLineVariants}
-          transition={menuLineTransition}
-          style={{ x: "-50%", transformOrigin: "center center" }}
-          className={lineClassName}
+        <span
+          className={`${lineClassName} -translate-x-1/2 ${
+            isOpen
+              ? "-translate-y-1/2 -rotate-45"
+              : "-translate-y-[calc(50%-6px)] rotate-0"
+          }`}
         />
       </span>
-    </motion.button>
+    </button>
   );
 }
 
 export function SiteHeader() {
   const pathname = usePathname();
-  const prefersReducedMotion = useReducedMotion();
+  const prefersReducedMotionSetting = useReducedMotion();
+  const [hasMounted, setHasMounted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [contentHeight, setContentHeight] = useState(0);
   const menuContentRef = useRef<HTMLDivElement>(null);
+
+  const prefersReducedMotion = hasMounted && prefersReducedMotionSetting;
 
   const closeMenu = () => setMenuOpen(false);
   const shellHeight = menuOpen ? headerBarHeight + contentHeight : headerBarHeight;
@@ -109,6 +93,10 @@ export function SiteHeader() {
     observer.observe(node);
     return () => observer.disconnect();
   }, [menuOpen]);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   useEffect(() => {
     setMenuOpen(false);

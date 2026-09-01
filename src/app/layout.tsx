@@ -35,8 +35,8 @@ export const metadata: Metadata = {
     "student organization",
   ],
   icons: {
-    icon: "/secondary_logo.png",
-    apple: "/secondary_logo.png",
+    icon: "/icon.png",
+    apple: "/icon.png",
   },
   openGraph: {
     type: "website",
@@ -72,7 +72,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
-      <body>
+      <body suppressHydrationWarning>
         <a
           href="#content"
           className="fixed left-4 top-4 z-[100] -translate-y-24 bg-foreground px-4 py-3 font-mono text-xs uppercase tracking-wider text-background transition-transform focus:translate-y-0"
