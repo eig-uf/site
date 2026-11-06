@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
 import { ContactForm } from "@/components/ContactForm";
 import { contactEmail, socialLinks } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Contact",
   description:
-    "Contact Embodied Intelligence Group for prospective UF students and for companies or sponsors.",
-};
+    "Contact the Embodied Intelligence Group at the University of Florida about joining, partnerships, or general questions.",
+  path: "/contact",
+});
 
 export default function ContactPage() {
   return (

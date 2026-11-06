@@ -1,12 +1,8 @@
-"use client";
+import { MovedPage } from "@/components/MovedPage";
+import { noIndexMetadata } from "@/lib/seo";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+export const metadata = noIndexMetadata("/");
 
-export default function LearnRedirect() {
-  const router = useRouter();
-  useEffect(() => {
-    router.replace("/");
-  }, [router]);
-  return null;
+export default function LearnPage() {
+  return <MovedPage href="/" label="home" />;
 }

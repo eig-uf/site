@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
 import { BlogIndex } from "@/components/BlogIndex";
 import { getAllPosts } from "@/data/blog";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "News",
   description:
-    "Project notes, model evals, and research logs from the Embodied Intelligence Group at UF.",
-};
+    "Notes from the Embodied Intelligence Group at the University of Florida on robot learning, physical AI, and ARM0.",
+  path: "/blog",
+});
 
 export default function BlogPage() {
   return (

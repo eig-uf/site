@@ -1,5 +1,14 @@
 import Link from "next/link";
 import { HomeHeroVideo } from "@/components/HomeHeroVideo";
+import { siteName, siteSummary } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
+
+export const metadata = pageMetadata({
+  title: `${siteName} | University of Florida`,
+  description: siteSummary,
+  path: "/",
+  absoluteTitle: true,
+});
 
 export default function Home() {
   return (

@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import { memberSections, type Member, type MemberSection } from "@/data/members";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Team",
   description:
     "Meet the Embodied Intelligence Group e-board, team leads, and members at the University of Florida.",
-};
+  path: "/members",
+});
 
 function showsRole(section: MemberSection, member: Member) {
   return member.role.trim().toLowerCase() !== section.title.trim().toLowerCase();
@@ -21,7 +22,7 @@ function MemberCard({ member, role }: { member: Member; role?: string }) {
         <div className="relative mb-3 aspect-[4/5] w-[calc(100%-1.25rem)] overflow-hidden !rounded-lg sm:w-[calc(100%-1.75rem)]">
           <Image
             src={member.image}
-            alt=""
+            alt={member.name}
             fill
             sizes="(max-width: 640px) 40vw, (max-width: 1024px) 28vw, 16vw"
             className="object-cover"

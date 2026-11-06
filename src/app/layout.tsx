@@ -1,7 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { JsonLd } from "@/components/JsonLd";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
-import { siteDescription, siteUrl } from "@/lib/site";
+import { siteName, siteSummary, siteUrl, socialLinks, contactEmail } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -20,20 +21,39 @@ export const viewport: Viewport = {
   themeColor: "#0a0a0a",
 };
 
+const organizationId = `${siteUrl}/#organization`;
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "EIG",
-    template: "%s / EIG",
+    default: siteName,
+    template: `%s / ${siteName}`,
   },
-  description: siteDescription,
+  description: siteSummary,
+  applicationName: siteName,
+  authors: [{ name: siteName, url: siteUrl }],
+  creator: siteName,
   keywords: [
-    "embodied intelligence",
-    "robotics",
-    "physical AI",
+    "Embodied Intelligence Group",
+    "EIG",
     "University of Florida",
+    "robot learning",
+    "physical AI",
+    "robotics",
     "student organization",
+    "ARM0",
   ],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   icons: {
     icon: "/icon.png",
     apple: "/icon.png",
@@ -42,22 +62,22 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: siteUrl,
-    siteName: "EIG",
-    title: "EIG",
-    description: siteDescription,
+    siteName,
+    title: siteName,
+    description: siteSummary,
     images: [
       {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "EIG",
+        alt: "Embodied Intelligence Group",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "EIG",
-    description: siteDescription,
+    title: siteName,
+    description: siteSummary,
     images: ["/opengraph-image"],
   },
 };
@@ -82,6 +102,40 @@ export default function RootLayout({
         >
           Skip to content
         </a>
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "Organization",
+                "@id": organizationId,
+                name: siteName,
+                alternateName: "EIG",
+                url: siteUrl,
+                logo: `${siteUrl}/logo-white.png`,
+                email: contactEmail,
+                sameAs: [
+                  socialLinks.linkedin,
+                  socialLinks.instagram,
+                  "https://github.com/eig-uf",
+                ],
+                parentOrganization: {
+                  "@type": "CollegeOrUniversity",
+                  name: "University of Florida",
+                  url: "https://www.ufl.edu/",
+                },
+              },
+              {
+                "@type": "WebSite",
+                "@id": `${siteUrl}/#website`,
+                name: siteName,
+                url: siteUrl,
+                description: siteSummary,
+                publisher: { "@id": organizationId },
+              },
+            ],
+          }}
+        />
         <SiteHeader />
         <main id="content" className="flex-1 pt-[var(--header-height)]">
           {children}

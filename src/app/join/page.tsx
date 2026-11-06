@@ -1,12 +1,8 @@
-"use client";
+import { MovedPage } from "@/components/MovedPage";
+import { noIndexMetadata } from "@/lib/seo";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+export const metadata = noIndexMetadata("/contact");
 
-export default function JoinRedirect() {
-  const router = useRouter();
-  useEffect(() => {
-    router.replace("/contact");
-  }, [router]);
-  return null;
+export default function JoinPage() {
+  return <MovedPage href="/contact" label="contact" />;
 }
