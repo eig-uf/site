@@ -1,30 +1,32 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #050505;
-  --muted: #6b6b6b;
-  --border: #e6e6e6;
-  --accent: #050505;
-  --nav-bg: #ffffff;
-  --nav-border: rgba(0, 0, 0, 0.1);
-  --nav-primary: #050505;
-  --nav-secondary: rgba(0, 0, 0, 0.6);
-  --nav-button-hover: rgba(0, 0, 0, 0.05);
+  --background: #0a0a0a;
+  --foreground: #ffffff;
+  --muted: #8a8a8a;
+  --border: #262626;
+  --accent: #ffffff;
+  --surface: #161616;
+  --nav-bg: #0a0a0a;
+  --nav-border: #0a0a0a;
+  --nav-primary: #ffffff;
+  --nav-secondary: rgba(255, 255, 255, 0.55);
+  --nav-button-hover: rgba(255, 255, 255, 0.06);
   --header-height: calc(5rem + 1.5rem);
 }
 
 @theme inline {
-  --color-background: #ffffff;
-  --color-foreground: #050505;
-  --color-muted: #6b6b6b;
-  --color-border: #e6e6e6;
-  --color-accent: #050505;
-  --color-nav-bg: #ffffff;
-  --color-nav-border: rgba(0, 0, 0, 0.1);
-  --color-nav-primary: #050505;
-  --color-nav-secondary: rgba(0, 0, 0, 0.6);
-  --color-nav-button-hover: rgba(0, 0, 0, 0.05);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-surface: var(--surface);
+  --color-nav-bg: var(--nav-bg);
+  --color-nav-border: var(--nav-border);
+  --color-nav-primary: var(--nav-primary);
+  --color-nav-secondary: var(--nav-secondary);
+  --color-nav-button-hover: var(--nav-button-hover);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -38,6 +40,7 @@ html {
   scroll-behavior: smooth;
   overflow-x: clip;
   background: var(--background);
+  color-scheme: dark;
 }
 
 body {

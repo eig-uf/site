@@ -1,11 +1,10 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { siteName } from "@/lib/site";
 
 export const dynamic = "force-static";
 
-export const alt = siteName;
+export const alt = "EIG";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -16,13 +15,10 @@ async function loadGeistMedium() {
 }
 
 export default async function Image() {
-  const [hero, logo, geistMedium] = await Promise.all([
-    readFile(join(process.cwd(), "public/images/og-dither-robot.png")),
-    readFile(join(process.cwd(), "public/logo-black.png")),
+  const [logo, geistMedium] = await Promise.all([
+    readFile(join(process.cwd(), "public/logo-white.png")),
     loadGeistMedium(),
   ]);
-
-  const heroSrc = `data:image/jpeg;base64,${hero.toString("base64")}`;
   const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
 
   return new ImageResponse(
@@ -30,64 +26,33 @@ export default async function Image() {
       <div
         style={{
           display: "flex",
-          position: "relative",
+          alignItems: "center",
+          justifyContent: "center",
           width: "100%",
           height: "100%",
+          backgroundColor: "#0a0a0a",
+          gap: 28,
         }}
       >
         {/* img required for next/og ImageResponse */}
         <img
-          src={heroSrc}
+          src={logoSrc}
           alt=""
-          width={1200}
-          height={630}
-          style={{
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            objectPosition: "center",
-          }}
+          width={96}
+          height={96}
+          style={{ objectFit: "contain" }}
         />
         <div
           style={{
             display: "flex",
-            position: "absolute",
-            top: 72,
-            left: 0,
-            right: 0,
-            justifyContent: "center",
+            fontFamily: "Geist",
+            fontSize: 72,
+            fontWeight: 500,
+            letterSpacing: "-0.04em",
+            color: "#ffffff",
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 28,
-            }}
-          >
-            <img
-              src={logoSrc}
-              alt=""
-              width={88}
-              height={88}
-              style={{ objectFit: "contain" }}
-            />
-            <div
-              style={{
-                display: "flex",
-                fontFamily: "Geist",
-                fontSize: 64,
-                fontWeight: 500,
-                lineHeight: 1,
-                letterSpacing: "-0.065em",
-                color: "#050505",
-              }}
-            >
-              {siteName}
-            </div>
-          </div>
+          EIG
         </div>
       </div>
     ),

@@ -1,18 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export function HomeHeroVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!mounted) return;
-
     const video = videoRef.current;
     if (!video) return;
 
@@ -78,30 +71,23 @@ export function HomeHeroVideo() {
       document.removeEventListener("touchstart", onGesture);
       document.removeEventListener("click", onGesture);
     };
-  }, [mounted]);
+  }, []);
 
   return (
     <div className="home-hero-video">
-      {mounted ? (
-        <video
-          ref={videoRef}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          className="home-hero-video-player"
-          aria-hidden="true"
-        >
-          <source src="/videos/dithered-video.webm?v=4" type="video/webm" />
-          <source src="/videos/dithered-video.mp4?v=4" type="video/mp4" />
-        </video>
-      ) : (
-        <div
-          className="home-hero-video-player aspect-video w-full bg-border"
-          aria-hidden="true"
-        />
-      )}
+      <video
+        ref={videoRef}
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        className="home-hero-video-player"
+        aria-hidden="true"
+      >
+        <source src="/videos/dithered-video.webm?v=4" type="video/webm" />
+        <source src="/videos/dithered-video.mp4?v=4" type="video/mp4" />
+      </video>
       <p className="home-hero-video-credit">
         Source:{" "}
         <a

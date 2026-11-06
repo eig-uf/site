@@ -7,6 +7,8 @@ export const siteDescription =
   "A UF student group exploring how intelligent machines learn.";
 
 /** Update these to the club’s real profiles. */
+export const contactEmail = "thomley.logan@ufl.edu";
+
 export const socialLinks = {
   discord: "https://discord.gg/cgJTww7kBT",
   instagram: "https://www.instagram.com/eig_uf/",
